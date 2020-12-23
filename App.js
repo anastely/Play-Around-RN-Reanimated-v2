@@ -15,6 +15,8 @@ import Animated, {
   useAnimatedGestureHandler,
 } from 'react-native-reanimated';
 import {PanGestureHandler} from 'react-native-gesture-handler';
+import Slide from './src/Slide';
+import Cards from './src/Slide';
 
 const App = () => {
   const opacity = useSharedValue(0.4); // it's like Animated.Value in RN Animated API
@@ -81,7 +83,7 @@ const App = () => {
   });
   return (
     <SafeAreaView style={styles.container}>
-      <Animated.View style={[styles.box, animatedBox]} />
+      {/* <Animated.View style={[styles.box, animatedBox]} />
       <Button
         title="move"
         onPress={() => {
@@ -128,7 +130,9 @@ const App = () => {
       <Button
         title="Random Width"
         onPress={() => (widthBox.value = withSpring(Math.random()))}
-      />
+      /> */}
+
+      <Slide />
     </SafeAreaView>
   );
 };
