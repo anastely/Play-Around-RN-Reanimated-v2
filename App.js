@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, Button} from 'react-native';
+import {View, StyleSheet, Button} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -17,6 +17,9 @@ import Animated, {
 import {PanGestureHandler} from 'react-native-gesture-handler';
 import Slide from './src/Slide';
 import Cards from './src/Slide';
+// import Donut from './src/Donut';
+import Donut from './src/Donut';
+import AnimatedText from './src/AnimatedText/AnimatedText';
 
 const App = () => {
   const opacity = useSharedValue(0.4); // it's like Animated.Value in RN Animated API
@@ -82,7 +85,7 @@ const App = () => {
     };
   });
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {/* <Animated.View style={[styles.box, animatedBox]} />
       <Button
         title="move"
@@ -132,8 +135,10 @@ const App = () => {
         onPress={() => (widthBox.value = withSpring(Math.random()))}
       /> */}
 
-      <Slide />
-    </SafeAreaView>
+      {/* <Slide /> */}
+      {/* <Donut /> */}
+      <AnimatedText />
+    </View>
   );
 };
 
@@ -142,7 +147,7 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
+    justifyContent: 'center',
   },
   box: {
     width: 100,
