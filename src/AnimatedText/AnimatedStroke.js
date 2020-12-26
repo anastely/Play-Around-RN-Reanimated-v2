@@ -1,5 +1,4 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
 import Animated, {Easing, useAnimatedProps} from 'react-native-reanimated';
 import {Path} from 'react-native-svg';
 
@@ -25,23 +24,6 @@ const AnimatedStroke = ({d, progress}) => {
 
   return (
     <>
-      {/* <AnimatedPath
-        animatedProps={animatedBGProps}
-        d={d}
-        stroke={stroke}
-        strokeWidth={10}
-        strokeDasharray={setLength}
-      />
-      <AnimatedPath
-        ref={ref}
-        animatedProps={animatedProps}
-        onLayout={() => setLength(ref.current.getTotalLength())}
-        d={d}
-        stroke="#000"
-        strokeWidth={10}
-        strokeDasharray={length}
-        strokeDashoffset={length / 2}
-      /> */}
       <AnimatedPath
         animatedProps={animatedBGProps}
         d={d}
@@ -64,5 +46,3 @@ const AnimatedStroke = ({d, progress}) => {
 };
 
 export default AnimatedStroke;
-
-const styles = StyleSheet.create({});
