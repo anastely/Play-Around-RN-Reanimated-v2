@@ -43,23 +43,36 @@ const AnimatedLogo = ({progress}) => {
   const rotateAnimation = (target) => () => {
     'worklet';
     return {
-      transform: [{rotate: target * part2.value}],
+      transform: [{rotate: target * part2.value + 'deg'}],
+    };
+  };
+
+  const scaleAnimation = () => {
+    'worklet';
+    return {
+      r: 25 * part1.value,
     };
   };
 
   const animatedProps1 = useAnimatedProps(strokeAnimation);
   const animatedProps2 = useAnimatedProps(strokeAnimation);
   const animatedProps3 = useAnimatedProps(strokeAnimation);
+  const animatedPropsCenter = useAnimatedProps(scaleAnimation);
 
-  const style1 = useAnimatedStyle(rotateAnimation(Math.PI / 6)); // 30deg
-  const style2 = useAnimatedStyle(rotateAnimation(-Math.PI / 6)); // -30deg
-  const style3 = useAnimatedStyle(rotateAnimation(Math.PI / 2)); // 90deg
+  const circle1 = useAnimatedStyle(rotateAnimation(30)); // 30deg
+  const circle2 = useAnimatedStyle(rotateAnimation(-30)); // -30deg
+  const circle3 = useAnimatedStyle(rotateAnimation(90)); // 90deg
 
   return (
     <View>
-      <Animated.View style={style1}>
+      <Animated.View style={circle1}>
         <Svg width={width} height={height} viewBox={`0 0 ${vWidth} ${vHeight}`}>
-          <AnimatedCircle r={30} cx="428.5" cy="295.5" fill="#61defb" />
+          <AnimatedCircle
+            animatedProps={animatedPropsCenter}
+            cx="428.5"
+            cy="295.5"
+            fill="#61defb"
+          />
           <AnimatedEllipse
             animatedProps={animatedProps1}
             ref={ref}
@@ -74,7 +87,7 @@ const AnimatedLogo = ({progress}) => {
           />
         </Svg>
       </Animated.View>
-      <Animated.View style={[StyleSheet.absoluteFill, style2]}>
+      <Animated.View style={[StyleSheet.absoluteFill, circle2]}>
         <Svg width={width} height={height} viewBox={`0 0 ${vWidth} ${vHeight}`}>
           <AnimatedEllipse
             animatedProps={animatedProps2}
@@ -89,7 +102,7 @@ const AnimatedLogo = ({progress}) => {
         </Svg>
       </Animated.View>
 
-      <Animated.View style={[StyleSheet.absoluteFill, style3]}>
+      <Animated.View style={[StyleSheet.absoluteFill, circle3]}>
         <Svg width={width} height={height} viewBox={`0 0 ${vWidth} ${vHeight}`}>
           <AnimatedEllipse
             animatedProps={animatedProps3}
@@ -108,5 +121,3 @@ const AnimatedLogo = ({progress}) => {
 };
 
 export default AnimatedLogo;
-
-const styles = StyleSheet.create({});
