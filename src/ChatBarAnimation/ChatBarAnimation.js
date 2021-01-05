@@ -1,43 +1,25 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
+import {StyleSheet, Text, View, Pressable, Dimensions} from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
   useDerivedValue,
-  interpolate,
-  Extrapolate,
-  withSequence,
-  withDelay,
-  withSpring,
-  cancelAnimation,
 } from 'react-native-reanimated';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-{
-  /*
-    * Colors:
-        -Primary ~ #226CFE 
-        -secondary ~ #5095FA
-*/
-}
-const AddAttachmentButton = Animated.createAnimatedComponent(TouchableOpacity);
+const AddAttachmentButton = Animated.createAnimatedComponent(Pressable);
 const barWidth = Dimensions.get('window').width - 40;
 const ChatBarAnimation = () => {
   const rotateAnimationValuew = useSharedValue(0);
   const rotateBar = useSharedValue(0);
   const isAnimated = useSharedValue(false);
 
-  const progressOpacity = useDerivedValue(() => {
+  const rotateAddIcon = useDerivedValue(() => {
     return isAnimated.value
-      ? withTiming(0, {duration: 600, easing: Easing.in(Easing.ease)})
-      : withTiming(1, {duration: 900, easing: Easing.in(Easing.ease)});
+      ? withTiming(90, {duration: 600, easing: Easing.in(Easing.ease)})
+      : withTiming(45, {duration: 600, easing: Easing.in(Easing.ease)});
   });
 
   const rotateAnimationStyle = useAnimatedStyle(() => {
@@ -63,98 +45,48 @@ const ChatBarAnimation = () => {
     };
   });
 
-  const hideAddStyle = useAnimatedStyle(() => {
-    const opacity = interpolate(
-      progressOpacity.value,
-      [0, 1],
-      [0, 1],
-      Extrapolate.CLAMP,
-    );
+  const rotateAddIconStyle = useAnimatedStyle(() => {
     return {
-      opacity,
-    };
-  });
-
-  const hideCloseStyle = useAnimatedStyle(() => {
-    const opacity = interpolate(
-      progressOpacity.value,
-      [0, 1],
-      [1, 0],
-      Extrapolate.CLAMP,
-    );
-
-    return {
-      opacity,
-      // zIndex: isAnimated.value ? 9999 : -99999,
+      transform: [{rotate: rotateAddIcon.value + 'deg'}],
     };
   });
 
   const addAttachment = () => {
     isAnimated.value = true;
-    rotateAnimationValuew.value = withDelay(
-      100,
-      isAnimated.value
-        ? withTiming(0, {
-            duration: 200,
-            easing: Easing.in(Easing.ease),
-          })
-        : withTiming(-90, {
-            duration: 500,
-            easing: Easing.in(Easing.ease),
-          }),
-    );
-    rotateBar.value = isAnimated.value
-      ? withTiming(
-          -0.2,
-          {duration: 200, easing: Easing.in(Easing.ease)},
-          () => {
-            rotateBar.value = withTiming(0, {
-              duration: 50,
-              easing: Easing.inOut(Easing.ease),
-            });
-          },
-        )
-      : withTiming(0.1, {duration: 200, easing: Easing.in(Easing.ease)}, () => {
-          rotateBar.value = withTiming(0, {
-            duration: 50,
-            easing: Easing.inOut(Easing.ease),
-          });
+    rotateAnimationValuew.value =
+      !isAnimated.value &&
+      withTiming(-90, {
+        duration: 400,
+        easing: Easing.inOut(Easing.ease),
+      });
+
+    rotateBar.value =
+      isAnimated.value &&
+      withTiming(-0.1, {duration: 200, easing: Easing.in(Easing.ease)}, () => {
+        rotateBar.value = withTiming(0, {
+          duration: 150,
+          easing: Easing.in(Easing.ease),
         });
+      });
   };
 
   const closeAttachment = () => {
     isAnimated.value = false;
+    rotateAnimationValuew.value =
+      isAnimated.value &&
+      withTiming(0, {
+        duration: 400,
+        easing: Easing.inOut(Easing.ease),
+      });
 
-    rotateAnimationValuew.value = withDelay(
-      100,
-      isAnimated.value
-        ? withTiming(0, {
-            duration: 500,
-            easing: Easing.in(Easing.ease),
-          })
-        : withTiming(-90, {
-            duration: 500,
-            easing: Easing.in(Easing.ease),
-          }),
-    );
-
-    rotateBar.value = isAnimated.value
-      ? withTiming(
-          -0.2,
-          {duration: 200, easing: Easing.in(Easing.ease)},
-          () => {
-            rotateBar.value = withTiming(0, {
-              duration: 50,
-              easing: Easing.inOut(Easing.ease),
-            });
-          },
-        )
-      : withTiming(0.1, {duration: 200, easing: Easing.in(Easing.ease)}, () => {
-          rotateBar.value = withTiming(0, {
-            duration: 50,
-            easing: Easing.inOut(Easing.ease),
-          });
+    rotateBar.value =
+      !isAnimated.value &&
+      withTiming(0.1, {duration: 200, easing: Easing.in(Easing.ease)}, () => {
+        rotateBar.value = withTiming(0, {
+          duration: 150,
+          easing: Easing.in(Easing.ease),
         });
+      });
   };
 
   const bouncing = useAnimatedStyle(() => {
@@ -176,8 +108,13 @@ const ChatBarAnimation = () => {
       <Animated.View style={[styles.barContainer, bouncing]}>
         <AddAttachmentButton
           onPress={addAttachment}
-          style={[styles.circle, hideAddStyle]}>
-          <Text style={{fontSize: 40, color: '#fff', opacity: 0.7}}>+</Text>
+          style={[styles.circle, rotateAddIconStyle]}>
+          <Icon
+            name="close-outline"
+            size={40}
+            color="#fff"
+            style={{opacity: 0.7}}
+          />
         </AddAttachmentButton>
 
         <Animated.View style={[styles.mesgInputWrapper, rotateInput]}>
@@ -190,24 +127,32 @@ const ChatBarAnimation = () => {
           style={[styles.attachmentsElements, rotateAnimationStyle]}>
           <AddAttachmentButton
             onPress={closeAttachment}
-            style={[styles.circle, hideCloseStyle]}>
-            <Text
-              style={[
-                {fontSize: 40, color: '#fff', opacity: 0.7},
-                styles.rotatedIcons,
-              ]}>
-              X
-            </Text>
-          </AddAttachmentButton>
+            style={[styles.circle, {backgroundColor: 'transparent'}]}
+          />
 
           <View style={styles.circle}>
-            <Text style={styles.rotatedIcons}>Camera</Text>
+            <Icon
+              name="camera-outline"
+              size={35}
+              color="#fff"
+              style={styles.rotatedIcons}
+            />
           </View>
           <View style={styles.circle}>
-            <Text style={styles.rotatedIcons}>video</Text>
+            <Icon
+              name="videocam-outline"
+              size={35}
+              color="#fff"
+              style={styles.rotatedIcons}
+            />
           </View>
           <View style={styles.circle}>
-            <Text style={styles.rotatedIcons}>Contacts</Text>
+            <Icon
+              name="cloud-upload-outline"
+              size={35}
+              color="#fff"
+              style={styles.rotatedIcons}
+            />
           </View>
         </Animated.View>
       </Animated.View>
@@ -261,7 +206,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#5095FA',
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: 13,
   },
 
   attachmentsElements: {
@@ -273,5 +218,6 @@ const styles = StyleSheet.create({
   },
   rotatedIcons: {
     transform: [{rotate: '90deg'}],
+    opacity: 0.8,
   },
 });

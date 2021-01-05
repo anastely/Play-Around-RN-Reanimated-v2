@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Button} from 'react-native';
+import {View, StyleSheet, StatusBar, Button} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -20,6 +20,9 @@ import Cards from './src/Slide';
 // import Donut from './src/Donut';
 import Donut from './src/Donut';
 import AnimatedText from './src/AnimatedText/AnimatedText';
+import FoxLogo from './src/AnimatedSVGs/FoxLogo';
+import AnimatedLogo from 'react-native-logo-animation';
+import ChatBarAnimation from './src/ChatBarAnimation/ChatBarAnimation';
 
 const App = () => {
   const opacity = useSharedValue(0.4); // it's like Animated.Value in RN Animated API
@@ -86,6 +89,7 @@ const App = () => {
   });
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
       {/* <Animated.View style={[styles.box, animatedBox]} />
       <Button
         title="move"
@@ -135,9 +139,13 @@ const App = () => {
         onPress={() => (widthBox.value = withSpring(Math.random()))}
       /> */}
 
+      {/* -------Components-------- */}
       {/* <Slide /> */}
       {/* <Donut /> */}
-      <AnimatedText />
+      {/* <AnimatedText /> */}
+      {/* <FoxLogo /> */}
+
+      <ChatBarAnimation />
     </View>
   );
 };
@@ -147,7 +155,7 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   box: {
     width: 100,
