@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "xcode":"cd ios && open playingWithReanimated2.xcworkspace"
+    "xcode": "cd ios && open playingWithReanimated2.xcworkspace"
   },
   "dependencies": {
     "react": "16.13.1",
@@ -16,6 +16,7 @@
     "react-native-gesture-handler": "^1.9.0",
     "react-native-logo-animation": "^1.0.2",
     "react-native-reanimated": "^2.0.0-alpha.9.2",
+    "react-native-redash": "^16.0.5",
     "react-native-svg": "^12.1.0",
     "react-native-vector-icons": "^7.1.0"
   },
